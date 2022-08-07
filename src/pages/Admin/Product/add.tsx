@@ -18,7 +18,7 @@ import { PlusCircleOutlined } from "@ant-design/icons";
 
 import { CategoryType } from "../../../types/category";
 import { add } from "../../../api/product";
-import { listCate } from "../../../api/category";
+import { getAllCate } from "../../../api/category";
 
 const { TextArea } = Input;
 const { Option } = Select;
@@ -31,7 +31,7 @@ const ProductAdd: React.FC = () => {
   const [cate, setCate] = useState<CategoryType[]>([]);
   useEffect(() => {
     const getCate = async () => {
-      const { data } = await listCate();
+      const { data } = await getAllCate();
       setCate(data);
     };
     getCate();

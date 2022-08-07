@@ -19,7 +19,7 @@ import { upload } from "../../../api/images";
 import { PlusCircleOutlined } from "@ant-design/icons";
 import { CategoryType } from "../../../types/category";
 import { read, update } from "../../../api/product";
-import { listCate } from "../../../api/category";
+import { getAllCate } from "../../../api/category";
 
 
 const { TextArea } = Input;
@@ -34,7 +34,7 @@ const ProductEdit: React.FC = () => {
   const [cate, setCate] = useState<CategoryType[]>([]);
   useEffect(() => {
     const getCate = async () => {
-      const { data } = await listCate();
+      const { data } = await getAllCate();
       setCate(data);
     };
     getCate();

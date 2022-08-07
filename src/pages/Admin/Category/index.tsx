@@ -11,7 +11,7 @@ import {
 const { Paragraph } = Typography;
 import type { ColumnsType } from "antd/es/table";
 import { CategoryType } from "../../../types/category";
-import { listCate, removeCate } from "../../../api/category";
+import { getAllCate, removeCate } from "../../../api/category";
 
 
 type ManagerCategory = {
@@ -32,22 +32,13 @@ const CategoryAdminPage = () => {
   const columns: ColumnsType<CategoryType> = [
 
     {
-      title: "Tên sản phẩm",
+      title: "Tên danh mục",
       dataIndex: "name",
       key: "name",
       render: (text) => <a>{text}</a>,
     },
     {
-      title: "Ẩn/Hiện",
-      key: "hidden",
-      render: (el, record) => (
-        <Space size="middle">
-          <Switch defaultChecked onClick={onChange} />
-        </Space>
-      ),
-    },
-    {
-      title: "Sửa",
+      title: "Thao tác",
       key: "action",
       dataIndex: "id",
       render: (dataIndex) => {
@@ -92,7 +83,7 @@ const CategoryAdminPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await listCate();
+        const data = await getAllCate();
         setDataTable(data.data);
       } catch (err) { }
     };
@@ -106,7 +97,7 @@ const CategoryAdminPage = () => {
           Danh mục
         </Typography.Title>
         <Link to="/admin/category/add">
-          <Button type="dashed" shape="circle" icon={<PlusOutlined />} />
+        <Button type="default" shape="default" icon={<PlusOutlined />} />
         </Link>
       </Breadcrumb>
       <Table columns={columns} dataSource={dataTable} />

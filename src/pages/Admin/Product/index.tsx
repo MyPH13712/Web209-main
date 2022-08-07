@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { Typography, Button, Table, Switch, Space, Image } from "antd";
+import { Typography, Button, Table, Switch, Space, Image, message } from "antd";
 import { Link, NavLink } from "react-router-dom";
 import {
     SearchOutlined,
@@ -13,7 +13,7 @@ const { Paragraph } = Typography;
 import type { ColumnsType } from "antd/es/table";
 import { ProductType } from "../../../types/product";
 import { CategoryType } from "../../../types/category";
-import { listCate, removeCate } from "../../../api/category";
+import { getAllCate, removeCate } from "../../../api/category";
 import { list } from "../../../api/product";
 
 
@@ -34,7 +34,7 @@ const ProductAdminPage = () => {
     const [cate, setCate] = useState<CategoryType[]>([]);
     useEffect(() => {
         const getCate = async () => {
-            const { data } = await listCate();
+            const { data } = await getAllCate();
             setCate(data);
         };
         getCate();
@@ -132,17 +132,20 @@ const ProductAdminPage = () => {
             render: (text: number) => (
                 <Space size="middle">
                     <Button
-                        onClick={async () => {
-                            const confirm = window.confirm("bạn có chắc muốn xóa");
-                            if (confirm) {
-                                const { data } = await removeCate(text);
-                                data &&
-                                    setDataTable(dataTable.filter((item) => item.id !== text));
+            style={{ border: "none" }}
+            onClick={async () => {
+              const confirm = window.confirm(
+                "Bạn có chắc chắn muốn xóa không?"
+              );
+              if (confirm) {
+                const { data } = await removeCate(text);
+              data &&
+                setDataTable(dataTable.filter((item) => item.id !== text));
+                message.success("Xóa thành công")
+              }
 
-                                console.log(text);
-                            }
-                        }}
-                    >
+            }}
+          >
 
                         <DeleteOutlined />
 
