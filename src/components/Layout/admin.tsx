@@ -1,4 +1,4 @@
-import { PhoneOutlined, LaptopOutlined, TabletFilled, AudioOutlined, SettingOutlined, SearchOutlined } from '@ant-design/icons';
+import { PhoneOutlined, LaptopOutlined, TabletFilled, AudioOutlined, UnorderedListOutlined, SearchOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Breadcrumb, Layout, Menu } from 'antd';
 import React from 'react';
@@ -16,7 +16,7 @@ const item3: MenuProps['items'] = [
   { key: "tablet", icon: <TabletFilled />, label: "Máy tính bảng" },
   { key: "audio", icon: <AudioOutlined />, label: "Âm thanh" },
   {
-    key: "categories", icon: <SettingOutlined />,
+    key: "categories", icon: <UnorderedListOutlined />,
     label: <Link to="/admin/category">Categories</Link>
   },
 ]

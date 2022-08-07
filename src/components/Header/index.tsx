@@ -40,7 +40,7 @@ const Header = () => {
                     <div>
                         <Image2 src={cartImage} />
                     </div>
-                    <div>Giỏ hàng</div>
+                    <Link className="text-white" to={`/cart`}>Giỏ hàng</Link>
                 </Vitri>
 
             </Container>
