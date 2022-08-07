@@ -9,9 +9,7 @@ import { NavLink } from 'react-router-dom';
 
 
 
-type Props = {
-  data: ProductType[];
-};
+type Props = {};
 const ProductPage = (props: Props) => {
   const [data, setData] = useState<ProductType[]>([]);
   useEffect(() => {
@@ -35,7 +33,7 @@ const ProductPage = (props: Props) => {
                 <div>
                   <Col span={4} >
                     <NavLink to={`/product/detail/${item.id}`}>
-                      <Box className={Procss.box}>
+                      <Box >
                         <ProImage src={item.image} alt="" />
                         <Name>
                           <h3>{item.name}</h3>
@@ -49,6 +47,7 @@ const ProductPage = (props: Props) => {
                         </Text>
                         <List>
                           <Rate disabled defaultValue={5} />
+                          <p className="text-xs ml-2 mt-3">30 đánh giá</p>
                         </List>
 
 
@@ -101,6 +100,7 @@ const Text = styled.div`
 `
 const List = styled.div`
   display:flex;
+  justify-content: between;
   padding-left: 10px;
   padding-bottom:15px;
 `

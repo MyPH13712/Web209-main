@@ -8,7 +8,7 @@ import Banner3 from "../../assets/images/banner3.png";
 import Banner4 from "../../assets/images/banner4.png";
 import Banner5 from "../../assets/images/banner5.png";
 import Banner6 from "../../assets/images/banner6.png";
-import ProductPage from './product'
+import ProductPage from './list'
 
 
 const HomePage = () => {

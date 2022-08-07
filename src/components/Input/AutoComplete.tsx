@@ -1,29 +1,37 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { UserOutlined, SearchOutlined } from '@ant-design/icons';
-import { AutoComplete as AutuCompleteAnt, Input } from 'antd';
-import styled from 'styled-components';
+import { AutoComplete as AutoCompleteAnt, Input } from 'antd';
 
-const options = [
-    { value: "Iphone" },
-    { value: "Oppo" },
-    { value: "Samsung" },
-    { value: "Xiaomi" },
-];
+import { getAllCate } from '../../api/category'
+import { ProductType } from '../../types/product';
 
-const AutoComplete: React.FC = () => (
-    <AutuCompleteAnt
-        dropdownClassName="certain-category-search-dropdown"
-        dropdownMatchSelectWidth={500}
-        options={options}
-        style={{width: 700}}
+
+
+const AutoComplete: React.FC = () => {
+    const [dataTable, setDataTable] = useState<ProductType[]>([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      const { data } = await getAllCate();
+      setDataTable(data);
+    };
+    fetchData();
+  }, []);
+  const options = dataTable.map((item) => {
+    return {
+      value: item.name,
+    };
+  });
+  return (
+    <AutoCompleteAnt
+      dropdownClassName="certain-category-search-dropdown"
+      dropdownMatchSelectWidth={500}
+      style={{ width: 500 }}
+      options={options}
     >
-        <WrapperInput size="large" prefix={<SearchOutlined />} />
-    </AutuCompleteAnt>
-);
+      <Input size="large" className="rounded-md" placeholder="Nhập tên sản phẩm cần tìm kiếm" />
+    </AutoCompleteAnt>
+  );
+};
 
-const WrapperInput = styled(Input)`
-    border: none;
-    border-radius: 10px;
-`
 
 export default AutoComplete;

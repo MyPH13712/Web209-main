@@ -16,23 +16,32 @@ const Header = () => {
                     <Logo src={logoImage} alt="" />
                 </Link>
                 <AutoComplete />
-                <Services>
-                    <ServiceBtn
-                        image={vectorImage}
-                        title1="Gọi mua hàng 1800.2097" />
-                    <ServiceBtn
-                        image={vectorImage}
-                        title1="Cửa hàng gần bạn" />
-                    <ServiceBtn
-                        image={deliveryImage}
-                        title1="Tra cứu đơn hàng" />
-                    <Link to="/cart">
-                        <ServiceBtn
-                            image={cartImage}
-                            title1="Giỏ hàng" />
-                    </Link>
+                <Sdt>
+                    <div>Gói mua hàng</div>
+                    <div>18002097</div>
+                </Sdt>
+                <Vitri>
+                    <div>
+                        <Image2 src={vectorImage} />
+                    </div>
+                    <div>
+                        Cửa hàng <br />
+                        gần bạn
+                    </div>
+                </Vitri>
 
-                </Services>
+                <Vitri>
+                    <div>
+                        <Image3 src={deliveryImage} />
+                    </div>
+                    <div>Tra cứu <br />đơn hàng</div>
+                </Vitri>
+                <Vitri>
+                    <div>
+                        <Image2 src={cartImage} />
+                    </div>
+                    <div>Giỏ hàng</div>
+                </Vitri>
 
             </Container>
         </Wrapper>
@@ -44,11 +53,13 @@ const Wrapper = styled.div`
 `
 
 const Container = styled.div`
-    max-width: 1000px;
-    height: 64px;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
+     width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  color: white;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
 `
 
 const Logo = styled.img`
@@ -56,13 +67,35 @@ const Logo = styled.img`
     height: auto;
     margin-right: 60px;
 `
-const Services = styled.div`
-    display: flex;
-    margin-left: 48px;
-`
-
-const Service = styled.div`
-    display: flex;
-`
+const Image = styled.img`
+  width: 65px;
+  height: auto;
+  margin-right: 40px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+`;
+const Image2 = styled.img`
+  width: 15px;
+  height: auto;
+  margin-right: 5px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+`;
+const Image3 = styled.img`
+  width: 25px;
+  height: auto;
+  margin-right: 5px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+`;
+const Sdt = styled.div`
+  font-size: 12px;
+  color: white;
+`;
+const Vitri = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
 
 export default Header

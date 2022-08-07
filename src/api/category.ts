@@ -2,8 +2,12 @@ import instance from './instance';
 import { CategoryType } from '../types/category';
 
 
-export const listCate = () => {
+export const getAllCate = () => {
     const url = '/category';
+    return instance.get(url);
+}
+export const getProInCate = (id:number) => {
+    const url = `/categoryDetail/${id}`;
     return instance.get(url);
 }
 export const removeCate = (id: number) => {
