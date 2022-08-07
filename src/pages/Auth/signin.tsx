@@ -18,15 +18,23 @@ import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import Faceboook from "../../assets/images/icon-face.png";
 import Google from "../../assets/images/icon-google.png";
-import {signin} from "../../api/auth"
+import { signin } from "../../api/auth"
+import { authenticate } from "../../utils/localStorage";
 
 const { TextArea } = Input;
 const { Option } = Select;
 
 const SigninPage: React.FC = () => {
     const navigate = useNavigate();
-
-    const onFinish = async (values: any) => { };
+    const onFinish = async (values: any) => {
+        try {
+            const { data: user } = await signin(values);
+            message.success("Đăng nhập thành công");
+            authenticate(user, () => navigate('/'))
+        } catch (err) {
+            message.error("Có lỗi xảy ra");
+        }
+    };
 
     const onFinishFailed = (errorInfo: any) => {
         console.log("Failed:", errorInfo);
@@ -42,7 +50,7 @@ const SigninPage: React.FC = () => {
                     onFinishFailed={onFinishFailed}
                     layout="vertical"
                 >
-                    <Typography.Title level={2} style={{ margin: 0}}>
+                    <Typography.Title level={2} style={{ margin: 0 }}>
                         Đăng nhập
                     </Typography.Title>
                     <Row>
@@ -51,7 +59,7 @@ const SigninPage: React.FC = () => {
                                 name="name"
                                 labelCol={{ span: 24 }}
                                 label="Email"
-                                rules={[{ required: true, message: "Email không được trống" }]}
+                                rules={[{ required: true, type: 'email', message: "Email không được trống" }]}
                             >
                                 <Input size="large" style={{ width: "400px" }} />
                             </Form.Item>
@@ -66,7 +74,7 @@ const SigninPage: React.FC = () => {
                                 <Input size="large" />
                             </Form.Item>
                             <Form.Item>
-                                <Button type="primary" htmlType="submit" style={{ width: "400px" }} >
+                                <Button type="primary" htmlType="submit" style={{ width: "400px",  height: '40px'  }} >
                                     Đăng ký
                                 </Button>
                             </Form.Item>
@@ -85,11 +93,9 @@ const SigninPage: React.FC = () => {
                     </Row>
                 </Form>
                 <div>
-                    <Container>
-                        <UploadWrapper>
-                            <Img src={Img2} />
-                        </UploadWrapper>
-                    </Container>
+                    <UploadWrapper>
+                        <Img src={Img2} />
+                    </UploadWrapper>
                 </div>
             </Container2>
             <Footer />
@@ -120,7 +126,7 @@ const Container2 = styled.div`
   margin-top: 40px;
   margin-bottom: 40px;
 `;
-const Container = styled.div``;
+
 
 const UploadWrapper = styled.div`
   display: flex;

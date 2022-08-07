@@ -17,17 +17,24 @@ import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import Faceboook from "../../assets/images/icon-face.png";
 import Google from "../../assets/images/icon-google.png";
-const { TextArea } = Input;
-const { Option } = Select;
+import { signup } from "../../api/auth"
+import { authenticate } from "../../utils/localStorage";
 
 const SignupPage: React.FC = () => {
 	const navigate = useNavigate();
+  const onFinish = async (values: any) => {
+    try {
+      const {data: user} = await signup(values);
+      message.success("Đăng ký thành công");
+      navigate('/signin')
+    } catch (err) {
+      message.error("Có lỗi xảy ra");
+    }
+  };
 
-	const onFinish = async (values: any) => { };
-
-	const onFinishFailed = (errorInfo: any) => {
-		console.log("Failed:", errorInfo);
-	};
+  const onFinishFailed = (errorInfo: any) => {
+    console.log("Failed:", errorInfo);
+  };
 
 	return (
 		<div>
@@ -68,7 +75,7 @@ const SignupPage: React.FC = () => {
 								<Input size="large" />
 							</Form.Item>
 							<Form.Item>
-								<Button type="primary" danger htmlType="submit" style={{ width: "400px"}} >
+								<Button type="primary" danger htmlType="submit" style={{ width: "400px" }} >
 									Đăng ký
 								</Button>
 							</Form.Item>
@@ -87,11 +94,9 @@ const SignupPage: React.FC = () => {
 					</Row>
 				</Form>
 				<div>
-					<Container>
-						<UploadWrapper>
-							<Img src={Img2} />
-						</UploadWrapper>
-					</Container>
+					<UploadWrapper>
+						<Img src={Img2} />
+					</UploadWrapper>
 				</div>
 			</Container2>
 			<Footer />
@@ -122,7 +127,6 @@ const Container2 = styled.div`
   margin-top: 40px;
   margin-bottom: 40px;
 `;
-const Container = styled.div``;
 
 const UploadWrapper = styled.div`
   display: flex;

@@ -32,8 +32,8 @@ function App() {
           <Route path="cart" element={<CartPage/>}/>
         </Route>
 
-        <Route path='signin' element={<SigninPage />} />
-        <Route path='signup' element={<SignupPage />} />
+        <Route path='/signin' element={<SigninPage />} />
+        <Route path='/signup' element={<SignupPage />} />
 
         <Route path='/admin' element={<AdminLayout />}>
           <Route index element={<ProductAdminPage />} />
