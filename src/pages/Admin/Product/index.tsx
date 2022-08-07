@@ -185,6 +185,7 @@ const Breadcrumb = styled.div`
   display: flex;
   justify-content: space-between;
   margin-top: 20px;
+  margin-bottom: 10px
 `;
 const IconsItems = styled.div`
   color: #00b0d7;

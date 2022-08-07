@@ -103,7 +103,7 @@ const CategoryAdminPage = () => {
     <>
       <Breadcrumb>
         <Typography.Title level={2} style={{ margin: 0 }}>
-          Điện thoại
+          Danh mục
         </Typography.Title>
         <Link to="/admin/category/add">
           <Button type="dashed" shape="circle" icon={<PlusOutlined />} />
@@ -118,6 +118,7 @@ const Breadcrumb = styled.div`
   display: flex;
   justify-content: space-between;
   margin-top: 20px;
+  margin-bottom: 10px
 `;
 const IconsItems = styled.div`
   color: #00b0d7;
