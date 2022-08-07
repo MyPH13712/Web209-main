@@ -24,7 +24,7 @@ const CategoryEdit: React.FC = () => {
     console.log('Success:', values);
     try {
         const {data} = await updateCate(category);
-        message.success("Tạo mới thành công");
+        message.success("Cập nhật thành công");
         navigate(-1);
       } catch (err) {
         message.error("Có lỗi xảy ra");

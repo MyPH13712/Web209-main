@@ -88,7 +88,7 @@ const ProductEdit: React.FC = () => {
     // console.log("Success:", values);
     try {
       const data = await update(product);
-      message.success("Sửa thành công");
+      message.success("Cập nhật thành công");
       navigate(-1);
 
     } catch (err) {
@@ -172,7 +172,7 @@ const ProductEdit: React.FC = () => {
                   rules={[
                     {
                       required: true,
-                      message: "Gía sản phẩm không được trống",
+                      message: "Giá sản phẩm không được trống",
                     },
                   ]}
                 >
@@ -182,12 +182,12 @@ const ProductEdit: React.FC = () => {
               <Col span={12}>
                 <Form.Item
                   name="saleOffPrice"
-                  label="Giá giảm"
+                  label="Giá khuyến mãi"
                   labelCol={{ span: 24 }}
                   rules={[
                     {
                       required: true,
-                      message: "Gía sản phẩm không được trống",
+                      message: "Giá sản phẩm không được trống",
                     },
                   ]}
                 >
@@ -243,7 +243,7 @@ const ProductEdit: React.FC = () => {
 
             <Form.Item>
               <Button type="primary" htmlType="submit">
-                Tạo mới sản phẩm
+               Cập nhật sản phẩm
               </Button>
             </Form.Item>
           </Col>

@@ -18,6 +18,10 @@ export const update = (product: any) => {
     const url = `/products/${product.id}`;
     return instance.put(url, product);
 }
+export const updateStt = (status: any, id: number) => {
+    const url = `/products/${id}`;
+    return instance.patch(url, status);
+}
 export const read = (id:number ) => {
     const url = `/products/${id}`;
     return instance.get(url);

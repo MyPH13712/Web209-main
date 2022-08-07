@@ -24,7 +24,8 @@
       "description": "[HOT] Thu cũ lên đời giá cao - Thủ tục nhanh - Trợ giá lên tới 1.000.000đ",
       "shortDesc": "[HOT] Thu cũ lên đời giá cao - Thủ tục nhanh - Trợ giá lên tới 1.000.000đ",
       "image": "http://res.cloudinary.com/dv3vzmogk/image/upload/v1659834983/anhhtus/va3gur5ny02epuelwluz.png",
-      "categories": 1
+      "categories": 3,
+      "status": 0
     },
     {
       "id": 2,
@@ -124,17 +125,6 @@
       "shortDesc": "Thu cũ đổi mới - Trợ giá đến 300.000đ",
       "image": "http://res.cloudinary.com/dv3vzmogk/image/upload/v1659836499/anhhtus/hs1mpjsws7ybbtftiakz.png",
       "categories": 1
-    },
-    {
-      "id": 11,
-      "name": "product 12312 update",
-      "originalPrice": 1231323,
-      "saleOffPrice": 1231,
-      "feature": "sdgagdg",
-      "description": "dagdfgdfgd",
-      "shortDesc": "sfdgdgdfgadf",
-      "image": "http://res.cloudinary.com/dv3vzmogk/image/upload/v1659853009/anhhtus/s0yquuqyd4hqsahxocie.png",
-      "categories": 3
     }
   ]
 }

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { Typography, Button, Table, Switch, Space, Image } from "antd";
+import { Typography, Button, Table, Switch, Space, message } from "antd";
 import { Link, NavLink } from "react-router-dom";
 import {
   SearchOutlined,
@@ -41,14 +41,29 @@ const CategoryAdminPage = () => {
       title: "Thao tác",
       key: "action",
       dataIndex: "id",
-      render: (dataIndex) => {
+      render: (text:string) => {
         return (
           <Space size="middle">
-            <IconsItems>
-              <Link to={`/admin/category/edit/${dataIndex}`}>
+              <Link to={`/admin/category/edit/${text}`}>
                 <FormOutlined />
               </Link>
-            </IconsItems>
+              <Button
+            style={{ border: "none" }}
+            onClick={async () => {
+              const confirm = window.confirm(
+                "Bạn có chắc chắn muốn xóa không?"
+              );
+              if (confirm) {
+                const { data } = await removeCate(text);
+              data &&
+                setDataTable(dataTable.filter((item) => item.id !== text));
+                message.success("Xóa thành công")
+              }
+              
+            }}
+          >
+            <DeleteOutlined />
+          </Button>
           </Space>
         );
       },
@@ -60,11 +75,15 @@ const CategoryAdminPage = () => {
       render: (text: number) => (
         <Space size="middle">
           <Button onClick={async () => {
-            const { data } = await removeCate(text);
-            data &&
-              setDataTable(dataTable.filter((item) =>
-                item.id !== text
-              ))
+            const confirm=window.confirm("Bạn có chắc chắn muốn xóa không?");
+            if(confirm){
+              const { data } = await removeCate(text);
+              data &&
+                setDataTable(dataTable.filter((item) =>
+                  item.id !== text
+                ))
+                message.success("Xóa thành công")
+            }
 
             console.log(text);
 

@@ -1,200 +1,230 @@
-import React, { useEffect, useState } from "react";
-import styled from "styled-components";
-import { Typography, Button, Table, Switch, Space, Image, message } from "antd";
-import { Link, NavLink } from "react-router-dom";
+import { Table, Space, Switch, Image, Button, message, Input } from "antd";
 import {
-    SearchOutlined,
-    PlusOutlined,
-    FormOutlined,
-    DeleteOutlined,
-    PlusCircleOutlined,
+  EditOutlined,
+  DeleteOutlined,
+  PlusSquareOutlined,
+  SearchOutlined
 } from "@ant-design/icons";
-const { Paragraph } = Typography;
-import type { ColumnsType } from "antd/es/table";
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import TitleAdmin from "../../../components/TitleAdmin";
+import styled from "styled-components";
+import { remove, list, update, updateStt } from "../../../api/product";
+import { getAllCate } from "../../../api/category";
 import { ProductType } from "../../../types/product";
 import { CategoryType } from "../../../types/category";
-import { getAllCate, removeCate } from "../../../api/category";
-import { list } from "../../../api/product";
+import type { ColumnsType, TableProps } from 'antd/es/table';
+interface DataType {
+  status: number;
+  id:number;
+  name: string;
+  originalPrice: number;
+  saleOffPrice: number;
+  image: string;
+  feature: string;
+  category: string;
+  createdAt: Date;
+  updatedAt: Date;
+  __v: number;
+}
+interface FilterDropdownProps {
+  prefixCls: string;
+  setSelectedKeys: (selectedKeys: string[]) => void;
+  selectedKeys: string[];
+  confirm: (closeDropdown?: any) => void;
+  clearFilters: () => void;
+}
+const ProductAdminPage: React.FC = () => {
+  const [dataTable, setDataTable] = useState<ProductType[]>([]);
+  const [cate, setCate] = useState<CategoryType[]>([]);
 
 
-type ManagerProductProps = {
-    data: ProductType[];
-    onRemove: (id: number) => void;
-};
+  // const [isLoading, setIsLoading] = useState(false)
+  useEffect(() => {
+    const fetchData = async () => {
+      const { data } = await list();
+      setDataTable(data);
+    };
+    const fetchCate = async () => {
+      const { data } = await getAllCate();
+      setCate(data);
+    };
+    fetchCate();
+    fetchData();
+  }, []);
+  let filters = cate.map((item) => {
+    return {
+      text: item.name,
+      value: item.id
+    }
+  });
+  const data = dataTable.map((item, index) => {
+    return {
+      key: index + 1,
+      _id: item.id,
+      name: item.name,
+      originalPrice: item.originalPrice,
+      saleOffPrice: item.saleOffPrice,
+      image: item.image,
+      feature: item.feature,
+      category: item.category,
+    };
+  });
+  const columns: any = [
+    {
+      title: "Ảnh",
+      key: "image",
+      dataIndex: "image",
+      render: (text: string) => <Image width={100} src={text} />,
+    },
+    {
+      title: "Tên sản phẩm",
+      dataIndex: "name",
+      key: "name",
+      filterDropdown: ({
+        setSelectedKeys,
+        selectedKeys,
+        confirm,
+        clearFilters,
+      }: FilterDropdownProps) => {
+        return (
+          <div style={{ padding: "10px" }}>
+            <Input
+              autoFocus
+              placeholder="Nhập tên sản phẩm"
+              value={selectedKeys[0]}
+              onChange={(e) => {
+                setSelectedKeys(e.target.value ? [e.target.value] : []);
+                confirm({ closeDropdown: false });
+              }}
+              onPressEnter={() => {
+                confirm();
+              }}
+            ></Input>
+            <Space style={{ marginTop: "20px" }}>
+              <Button
+                onClick={() => {
+                  confirm();
+                }}
+                type="primary"
+              >
+                Search
+              </Button>
 
-const handleChangeRouter = (el: any) => {
-    console.log("element: ", el);
-};
-
-const onChange = (checked: boolean) => {
-    console.log(`switch to ${checked}`);
-};
-
-const ProductAdminPage = () => {
-    const [cate, setCate] = useState<CategoryType[]>([]);
-    useEffect(() => {
-        const getCate = async () => {
-            const { data } = await getAllCate();
-            setCate(data);
-        };
-        getCate();
-    }, []);
-    const columns: ColumnsType<ProductType> = [
-        {
-            title: "Ảnh",
-            dataIndex: "image",
-            key: "image",
-            render: (dataIndex) => (
-                <Image src={dataIndex} style={{ width: "50px" }} />
-            ),
-        },
-        {
-            title: "Tên sản phẩm",
-            dataIndex: "name",
-            key: "name",
-            render: (text) => <a>{text}</a>,
-        },
-        // {
-        //   title: "Đặc điểm",
-        //   dataIndex: "feature",
-        //   key: "feature",
-        //   render: (text) => <a>{text}</a>,
-        // },
-        {
-            title: "Giá niêm yết",
-            dataIndex: "originalPrice",
-            key: "originalPrice",
-        },
-        // {
-        //   title: "Mô tả ngắn",
-        //   dataIndex: "shortDesc",
-        //   key: "shortDesc",
-        // },
-        {
-            title: "Danh mục",
-            dataIndex: "categories",
-            key: "categories",
-            render: (text: any) => {
-                let name;
-                cate.map((item) => {
-                    if (item.id == text) {
-                        name = item.name;
-                    }
-                })
-                return <span>{name}</span>
-            }
-        },
-        {
-            title: "Ẩn/Hiện",
-            key: "hidden",
-            render: (el, record) => (
-                <Space size="middle">
-                    <Switch unCheckedChildren onClick={onChange} />
-                </Space>
-            ),
-        },
-        {
-            title: "Chi tiết",
-            key: "action",
-            dataIndex: "id",
-            render: (dataIndex) => {
-                return (
-                    <Space size="middle">
-                        <IconsItems>
-                            <Link to={`/admin/product/detail/${dataIndex}`}>
-                                <PlusCircleOutlined />
-                            </Link>
-                        </IconsItems>
-                    </Space>
-                );
-            },
-        },
-        {
-            title: "Sửa",
-            key: "action",
-            dataIndex: "id",
-            render: (dataIndex) => {
-                return (
-                    <Space size="middle">
-                        <IconsItems>
-                            <Link to={`/admin/product/edit/${dataIndex}`}>
-                                <FormOutlined />
-                            </Link>
-                        </IconsItems>
-                    </Space>
-                );
-            },
-        },
-        {
-            title: "Xóa",
-            key: "hidden",
-            dataIndex: "id",
-            render: (text: number) => (
-                <Space size="middle">
-                    <Button
+              <Button
+                onClick={() => {
+                  clearFilters();
+                }}
+                type="dashed"
+              >
+                Reset
+              </Button>
+            </Space>
+          </div>
+        );
+      },
+      onFilter: (value: any, record: any) => {
+        return record.name.toLowerCase().includes(value.toLowerCase());
+      },
+      filterIcon: () => {
+        return <SearchOutlined />;
+      },
+    },
+    {
+      title: "Giá niêm yết (đồng)",
+      dataIndex: "originalPrice",
+      key: "originalPrice",
+    },
+    {
+      title: "Danh mục",
+      dataIndex: "category",
+      key: "category",
+      filters: filters,
+      onFilter: (value: string, record: any) => record.category.indexOf(value) === 0,
+      render: (text: number) => {
+        let name;
+        cate.map((item) => {
+          if (item.id == text) {
+            name = item.name;
+          }
+        });
+        return <span>{name}</span>;
+      },
+    },
+    {
+      title: "Ẩn/Hiện",
+      key: "status",
+      dataIndex: "status",
+      render: (text: number, record: any) => {
+        return (
+          <Switch
+            defaultChecked={text == 0 ? true : false}
+            onChange={() => {
+              onChangeStt(text == 0 ? false : true, record._id);
+            }}
+          />
+        );
+      },
+    },
+    {
+      title: "Thao tác",
+      key: "action",
+      dataIndex: "_id",
+      render: (text: string) => (
+        <Space size="middle">
+          <Link to={`/admin/product/edit/${text}`}>
+            <EditOutlined />
+          </Link>
+          <Button
             style={{ border: "none" }}
             onClick={async () => {
               const confirm = window.confirm(
                 "Bạn có chắc chắn muốn xóa không?"
               );
               if (confirm) {
-                const { data } = await removeCate(text);
-              data &&
-                setDataTable(dataTable.filter((item) => item.id !== text));
+                const { data } = await remove(text);
+                data &&
+                  setDataTable(dataTable.filter((item) => item.id !== text));
                 message.success("Xóa thành công")
               }
 
             }}
           >
-
-                        <DeleteOutlined />
-
-                    </Button>
-                </Space>
-            ),
-        },
-    ];
-    const [dataTable, setDataTable] = useState([]);
-    console.log("dataTable", dataTable);
-
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const data = await list();
-                setDataTable(data.data);
-            } catch (err) { }
-        };
-        fetchData();
-    }, []);
-
-    return (
-        <>
-            <Breadcrumb>
-                <Typography.Title level={2} style={{ margin: 0 }}>
-                    Điện thoại
-                </Typography.Title>
-
-                <Link to="/admin/product/add">
-                    <Button type="default" shape="default" icon={<PlusOutlined />} />
-                </Link>
-            </Breadcrumb>
-
-            <Table columns={columns} dataSource={dataTable} />
-        </>
-    );
+            <DeleteOutlined />
+          </Button>
+        </Space>
+      ),
+    },
+  ];
+  const onChangeStt = async (checked: boolean, id: number) => {
+    console.log(id);
+    const status = checked ? 0 : 1;
+    const { data } = await updateStt({ status: status }, id);
+    setDataTable(dataTable.map((item) => (item.id == id ? data : item)));
+    message.success("Đổi trạng thái thành công");
+  };
+  const onChange: TableProps<DataType>['onChange'] = (pagination, filters, sorter, extra) => {
+    console.log('params', pagination, filters, sorter, extra);
+  };
+  return (
+    <div>
+      <Top>
+        <TitleAdmin name={"Sản phẩm"} />
+        <Link className="text-4xl" to="/admin/product/add">
+          <PlusSquareOutlined />
+        </Link>
+      </Top>
+      <Table
+        /*rowSelection={rowSelection}*/ columns={columns}
+        dataSource={data}
+      />
+    </div>
+  );
 };
 
-const Breadcrumb = styled.div`
+const Top = styled.div`
   display: flex;
+  align-items: center;
   justify-content: space-between;
-  margin-top: 20px;
-  margin-bottom: 10px
 `;
-const IconsItems = styled.div`
-  color: #00b0d7;
-`;
-const IconsItems2 = styled.div`
-  color: #00b0d7;
-`;
-
 export default ProductAdminPage;
